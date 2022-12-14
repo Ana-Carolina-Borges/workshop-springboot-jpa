@@ -1,4 +1,4 @@
-package com.educandoWeb.curso.services;
+package com.educandoWeb.curso.config.services;
 
 import com.educandoWeb.curso.entities.User;
 import com.educandoWeb.curso.repositories.UserRepository;
