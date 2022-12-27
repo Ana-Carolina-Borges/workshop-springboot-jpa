@@ -1,6 +1,7 @@
 package com.educandoWeb.curso.resources;
 
 
+import ch.qos.logback.core.net.server.ServerListener;
 import com.educandoWeb.curso.entities.User;
 import com.educandoWeb.curso.config.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,9 @@ public class UserResource {
         return ResponseEntity.created(uri).body(obj);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
