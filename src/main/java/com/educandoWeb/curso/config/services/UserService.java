@@ -1,9 +1,12 @@
 package com.educandoWeb.curso.config.services;
 
+import com.educandoWeb.curso.config.services.exceptions.DatabaseException;
 import com.educandoWeb.curso.config.services.exceptions.ResourceNotFoundException;
 import com.educandoWeb.curso.entities.User;
 import com.educandoWeb.curso.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +35,13 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        }catch (DataIntegrityViolationException e ){
+            throw new DatabaseException(e.getMessage());
+        }
     }
 
     public User update(Long id, User obj) {
